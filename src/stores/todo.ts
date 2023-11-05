@@ -42,7 +42,7 @@ export const useTodoStore = defineStore('todo', () => {
   }
 
   const loadtodosFromLocalStorage = () => {
-    const savedtodos = JSON.parse(localStorage.getItem('vue-todos') || '')
+    const savedtodos = JSON.parse(localStorage.getItem('vue-todos') || '[]')
     if (savedtodos) {
       todos.value = savedtodos
     }
