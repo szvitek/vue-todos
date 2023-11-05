@@ -3,7 +3,7 @@ import { Icon } from '@iconify/vue'
 import { storeToRefs } from 'pinia'
 import TodoCreator from '../components/TodoCreator.vue'
 import TodoItem from '../components/TodoItem.vue'
-import { useTodoStore } from '../../stores/todo'
+import { useTodoStore } from '../stores/todo'
 
 const store = useTodoStore()
 
