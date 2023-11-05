@@ -1,23 +1,36 @@
 <script setup>
-import { /* reactive,*/ ref } from 'vue'
+import { defineEmits, reactive } from 'vue'
+
+const emit = defineEmits(['create-todo'])
 
 // use ref for primitive values
 // Non-primitive values are turned into reactive proxies via reactive()
-const todo = ref('testing')
-// console.log(todo.value)
+const todoState = reactive({
+  todo: '',
+  invalid: null,
+  errMsg: ''
+})
 
-// use reactive for objects
-// const todoState = reactive({
-//   todo: 'Testing'
-// })
-// console.log(todoState.todo)
+const createTodo = () => {
+  todoState.invalid = null
+  if (todoState.todo.trim() !== '') {
+    emit('create-todo', todoState.todo)
+    todoState.todo = ''
+    return
+  }
+  todoState.invalid = true
+  todoState.errMsg = 'Todo value cannot be empty'
+}
 </script>
 
 <template>
-  <div class="input-wrap">
-    <input type="text" v-model="todo" />
-    <button>Create</button>
+  <div class="input-wrap" :class="{ 'input-err': todoState.invalid }">
+    <input type="text" v-model="todoState.todo" />
+    <button @click="createTodo()">Create</button>
   </div>
+  <p v-show="todoState.invalid" class="err-msg">
+    {{ todoState.errMsg }}
+  </p>
 </template>
 
 <style lang="scss" scoped>
@@ -25,6 +38,10 @@ const todo = ref('testing')
   display: flex;
   transition: 250ms ease;
   border: 2px solid #41b080;
+
+  &.input-err {
+    border-color: red;
+  }
 
   &:focus-within {
     box-shadow:
@@ -46,5 +63,12 @@ const todo = ref('testing')
     padding: 8px 16px;
     border: none;
   }
+}
+
+.err-msg {
+  margin-top: 6px;
+  font-size: 12px;
+  text-align: center;
+  color: red;
 }
 </style>
