@@ -42,7 +42,6 @@ export const useTodoStore = defineStore('todo', () => {
   }
 
   const savetodosToLocalStorage = () => {
-    console.log('update localstorage')
     localStorage.setItem('vue-todos', JSON.stringify(todos.value))
   }
 
