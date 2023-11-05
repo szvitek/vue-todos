@@ -1,7 +1,10 @@
-<script setup>
-defineProps({
-  type: () => ['submit', 'button'],
-  default: () => 'submit'
+<script lang="ts" setup>
+export interface TodoButtonProps {
+  type?: 'submit' | 'button'
+}
+
+withDefaults(defineProps<TodoButtonProps>(), {
+  type: 'submit'
 })
 </script>
 

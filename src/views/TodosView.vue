@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { Icon } from '@iconify/vue'
 import { storeToRefs } from 'pinia'
 import TodoCreator from '../components/TodoCreator.vue'
@@ -83,3 +83,4 @@ main {
   }
 }
 </style>
+../stores/todo
