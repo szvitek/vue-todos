@@ -1,5 +1,10 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useCounterStore } from '../../stores/counter'
+
+const store = useCounterStore()
+const { count } = storeToRefs(store)
 </script>
 
 <template>
@@ -11,7 +16,7 @@ import { RouterLink } from 'vue-router'
       </div>
       <ul class="nav-routes">
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/counter">Counter</RouterLink>
+        <RouterLink to="/counter">Counter ({{ count }})</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </ul>
     </nav>

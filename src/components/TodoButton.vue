@@ -1,7 +1,12 @@
-<script setup></script>
+<script setup>
+defineProps({
+  type: () => ['submit', 'button'],
+  default: () => 'submit'
+})
+</script>
 
 <template>
-  <button>
+  <button :type="type">
     <slot>Create</slot>
   </button>
 </template>

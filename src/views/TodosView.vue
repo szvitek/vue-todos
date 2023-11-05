@@ -1,72 +1,37 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
-import { uid } from 'uid'
 import { Icon } from '@iconify/vue'
+import { storeToRefs } from 'pinia'
 import TodoCreator from '../components/TodoCreator.vue'
 import TodoItem from '../components/TodoItem.vue'
-const todoList = ref([])
+import { useTodoStore } from '../../stores/todo'
 
-watch(
-  todoList,
-  (/*newValue, oldValue*/) => {
-    saveTodoListToLocalStorage()
-  },
-  {
-    deep: true
-  }
-)
+const store = useTodoStore()
 
-const todoCompleted = computed(() => {
-  return todoList.value.every((todo) => todo.isCompleted)
+const { todos, todoCompleted } = storeToRefs(store)
+const {
+  createTodo,
+  toggleTodoComplete,
+  toggleEditTodo,
+  updateTodo,
+  deleteTodo,
+  loadtodosFromLocalStorage,
+  savetodosToLocalStorage
+} = store
+
+store.$subscribe((/*mutation, state*/) => {
+  savetodosToLocalStorage()
 })
 
-const loadTodoListFromLocalStorage = () => {
-  const savedTodoList = JSON.parse(localStorage.getItem('vue-todos'))
-  if (savedTodoList) {
-    todoList.value = savedTodoList
-  }
-}
-
-loadTodoListFromLocalStorage()
-
-const saveTodoListToLocalStorage = () => {
-  console.log('update localstorage')
-  localStorage.setItem('vue-todos', JSON.stringify(todoList.value))
-}
-
-const createTodo = (todo) => {
-  todoList.value.push({
-    id: uid(),
-    todo,
-    isCompleted: null,
-    isEditing: null
-  })
-}
-
-const toggleTodoComplete = (todoIdx) => {
-  todoList.value[todoIdx].isCompleted = !todoList.value[todoIdx].isCompleted
-}
-
-const toggleEditTodo = (todoIdx) => {
-  todoList.value[todoIdx].isEditing = !todoList.value[todoIdx].isEditing
-}
-
-const updateTodo = (todoVal, todoIdx) => {
-  todoList.value[todoIdx].todo = todoVal
-}
-
-const deleteTodo = (todoId) => {
-  todoList.value = todoList.value.filter((todo) => todo.id !== todoId)
-}
+loadtodosFromLocalStorage()
 </script>
 
 <template>
   <main>
     <h1>Create Todo</h1>
     <TodoCreator @create-todo="createTodo" />
-    <ul class="todo-list" v-if="todoList.length">
+    <ul class="todo-list" v-if="todos.length">
       <TodoItem
-        v-for="(todo, index) in todoList"
+        v-for="(todo, index) in todos"
         :key="todo.id"
         :todo="todo"
         :index="index"
@@ -80,7 +45,7 @@ const deleteTodo = (todoId) => {
       <Icon icon="noto-v1:sad-but-relieved-face" width="22" />
       <span>You have no todo's to complete! Add one!</span>
     </p>
-    <p v-if="todoCompleted && todoList.length" class="todos-msg">
+    <p v-if="todoCompleted && todos.length" class="todos-msg">
       <Icon icon="noto-v1:party-popper" />
       <span>You have completed all your todos!</span>
     </p>
