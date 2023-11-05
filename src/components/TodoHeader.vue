@@ -1,7 +1,7 @@
-<script setup>
+<script lang="ts" setup>
 import { RouterLink } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useCounterStore } from '../../stores/counter'
+import { useCounterStore } from '../stores/counter'
 
 const store = useCounterStore()
 const { count } = storeToRefs(store)
@@ -59,3 +59,4 @@ header {
   }
 }
 </style>
+../stores/counter

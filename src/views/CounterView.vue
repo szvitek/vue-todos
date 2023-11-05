@@ -1,12 +1,12 @@
-<script setup>
+<script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { useCounterStore } from '../../stores/counter'
+import { useCounterStore } from '../stores/counter'
 
 const store = useCounterStore()
 const { count, doubleCount } = storeToRefs(store)
 const { decrement, increment } = store
 
-function add(value) {
+function add(value: number) {
   // method 1:
   // store.$patch({
   //   count: count.value + value
@@ -53,3 +53,4 @@ function reset() {
   }
 }
 </style>
+../stores/counter

@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { defineEmits, reactive } from 'vue'
 import TodoButton from './TodoButton.vue'
 
@@ -8,12 +8,12 @@ const emit = defineEmits(['create-todo'])
 // Non-primitive values are turned into reactive proxies via reactive()
 const todoState = reactive({
   todo: '',
-  invalid: null,
+  invalid: false,
   errMsg: ''
 })
 
 const createTodo = () => {
-  todoState.invalid = null
+  todoState.invalid = false
   if (todoState.todo.trim() !== '') {
     emit('create-todo', todoState.todo)
     todoState.todo = ''

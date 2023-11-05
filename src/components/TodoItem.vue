@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { Icon } from '@iconify/vue'
 
 // easy way just list the tyoes within an array
@@ -35,7 +35,7 @@ defineEmits(['toggle-complete', 'edit-todo', 'update-todo', 'delete-todo'])
         v-if="todo.isEditing"
         type="text"
         :value="todo.todo"
-        @input="$emit('update-todo', $event.target.value, index)"
+        @input="$emit('update-todo', ($event.target as HTMLInputElement).value, index)"
       />
       <span v-else :class="{ 'completed-todo': todo.isCompleted }">
         {{ todo.todo }}
