@@ -1,10 +1,20 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { uid } from 'uid'
 import { Icon } from '@iconify/vue'
 import TodoCreator from '../components/TodoCreator.vue'
 import TodoItem from '../components/TodoItem.vue'
 const todoList = ref([])
+
+watch(
+  todoList,
+  (/*newValue, oldValue*/) => {
+    saveTodoListToLocalStorage()
+  },
+  {
+    deep: true
+  }
+)
 
 const loadTodoListFromLocalStorage = () => {
   const savedTodoList = JSON.parse(localStorage.getItem('vue-todos'))
@@ -16,6 +26,7 @@ const loadTodoListFromLocalStorage = () => {
 loadTodoListFromLocalStorage()
 
 const saveTodoListToLocalStorage = () => {
+  console.log('update localstorage')
   localStorage.setItem('vue-todos', JSON.stringify(todoList.value))
 }
 
@@ -26,27 +37,22 @@ const createTodo = (todo) => {
     isCompleted: null,
     isEditing: null
   })
-  saveTodoListToLocalStorage()
 }
 
 const toggleTodoComplete = (todoIdx) => {
   todoList.value[todoIdx].isCompleted = !todoList.value[todoIdx].isCompleted
-  saveTodoListToLocalStorage()
 }
 
 const toggleEditTodo = (todoIdx) => {
   todoList.value[todoIdx].isEditing = !todoList.value[todoIdx].isEditing
-  saveTodoListToLocalStorage()
 }
 
 const updateTodo = (todoVal, todoIdx) => {
   todoList.value[todoIdx].todo = todoVal
-  saveTodoListToLocalStorage()
 }
 
 const deleteTodo = (todoId) => {
   todoList.value = todoList.value.filter((todo) => todo.id !== todoId)
-  saveTodoListToLocalStorage()
 }
 </script>
 
